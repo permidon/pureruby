@@ -5,7 +5,7 @@ user_height = gets.to_i
 ideal_weight = user_height - 110
 
 if ideal_weight >= 0
-	puts "#{user_name}, ваш оптимальный вес #{ideal_weight} кг."
+  puts "#{user_name}, ваш оптимальный вес #{ideal_weight} кг."
 else
-    puts "#{user_name}, ваш вес уже оптимальный"
+  puts "#{user_name}, ваш вес уже оптимальный"
 end
