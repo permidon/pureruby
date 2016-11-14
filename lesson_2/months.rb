@@ -13,7 +13,5 @@ months = { "January" => 31,
   }
 
 months.each do | key, value |
-  if value == 30
-    puts "#{key} contains #{value} days."
-  end
+  puts "#{key} contains #{value} days." if value == 30
 end

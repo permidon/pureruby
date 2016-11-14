@@ -7,9 +7,7 @@ loop do
   puts "Enter product name ('stop' to exit):"
   prodct = gets.chomp
 
-  if prodct.downcase == 'stop'
-    break
-  end
+  break if prodct.downcase == 'stop'
 
   puts "Enter item price ($):"
   price = gets.to_f
@@ -34,15 +32,9 @@ puts "Products price: "
 cart.each do | prd, pair|
   pair.each do |cost, q|
     puts "#{prd} costs $#{cost * q}"
-  end
-end
-
-puts
-
-cart.each do | prd, pair|
-  pair.each do |cost, q|
     tot += cost * q
   end
 end
 
+puts
 puts "Total: $#{tot}"
