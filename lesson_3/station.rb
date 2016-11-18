@@ -28,7 +28,11 @@ class Station
         @trains.map { |train| train }
       else
         puts "Поезда типа '#{type}', находяшиеся на станции:"
-        @trains.map { |train| train.type == type }
+        @trains.map do |train|
+          if train.type == type
+           train
+          end
+        end
       end
     end
   end
