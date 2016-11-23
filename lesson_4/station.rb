@@ -19,21 +19,9 @@ class Station
     end
   end
 
-  def trains(type="all")
-    if @trains.size == 0
-      puts "На станции нет поездов"
-    else
-      if type == "all"
-        puts "Поезда всех типов, находящиеся на станции:"
-        @trains.map { |train| train }
-      else
-        puts "Поезда типа '#{type}', находяшиеся на станции:"
-        @trains.map do |train|
-          if train.type == type
-           train
-          end
-        end
-      end
+  def trains(type = "all")
+    @trains.each do |train|
+      train if train.type == type || type == "all"
     end
   end
 

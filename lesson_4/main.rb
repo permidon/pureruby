@@ -7,8 +7,12 @@ require_relative "passenger_car"
 require_relative "route"
 require_relative "station"
 
-@stations = []
-@trains = []
+class Main
+
+def initialize
+  @stations = []
+  @trains = []
+end
 
 # Основное меню
 def menu
@@ -54,6 +58,8 @@ def menu
   end
 
 end
+
+private
 
 # Создание станции
 def create_station
@@ -245,4 +251,9 @@ def move_train
   menu
 end
 
-menu
+end
+
+management = Main.new
+management.menu
+
+
