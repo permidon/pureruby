@@ -238,8 +238,6 @@ def move_train
             if train.id == tid
               puts "Поезд помещен на станцию"
               station.arrival(train)
-            else
-              puts "Поезда '#{tid}' не существует"
             end
           end
         end

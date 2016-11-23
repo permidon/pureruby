@@ -19,10 +19,8 @@ class Station
     end
   end
 
-  def trains(type = "all")
-    @trains.each do |train|
-      train if train.type == type || type == "all"
-    end
+  def trains(type="all")
+    @trains.map{|train| train if train.type == type || type == "all"}.compact
   end
 
 end
