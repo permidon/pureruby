@@ -6,7 +6,7 @@ class Train
   attr_reader :id, :type, :cars, :speed
   attr_accessor :route
 
-  @@all_trains = []
+  @@all_trains = {}
 
   def initialize(id)
     add_instance
@@ -14,11 +14,11 @@ class Train
     @cars = []
     @speed = 0
     @current_station_id = 0
-    @@all_trains << self
+    @@all_trains[@id] = self
   end
 
-  def self.find(id="all")
-    @@all_trains.map{ |train| train if train.id == id || id == "all"}.compact
+  def self.find(id)
+    @@all_trains.key?(id) ? @@all_trains[id] : puts('Поезда с таким номером не найдено')
   end
 
   def speed_up(speed)
