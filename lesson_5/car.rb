@@ -1,5 +1,4 @@
 class Car
-
   include Manufacture
   include InstanceCounter
 
@@ -9,5 +8,4 @@ class Car
     add_instance
     @id = id
   end
-
 end
