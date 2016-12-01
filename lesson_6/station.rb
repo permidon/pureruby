@@ -16,15 +16,17 @@ class Station
   end
 
   def arrival(train)
+    @train = train
+    exist!
+    arr_validate!
     @trains << train
   end
 
   def departure(train)
-    if @trains.include?(train)
-      @trains.delete(train)
-    else
-      puts "Такого поезда нет на станции"
-    end
+    @train = train
+    exist!
+    dep_validate!
+    @trains.delete(train)
   end
 
   def trains(type="all")
@@ -40,7 +42,22 @@ class Station
   protected
 
   def validate!
-    raise "Название станции должено содержать символы" if name == ''
+    raise "Название станции должно быть строкой как минимум из 1-го символа" if name.class != String || name.size == 0
+    true
+  end
+
+  def exist!
+    raise "Поезд не является объектом cуперкласса 'Train'" if @train.class.superclass != Train
+    true
+  end
+
+  def arr_validate!
+    raise "Такой поезд уже есть на станции" if @trains.include?(@train)
+    true
+  end
+
+  def dep_validate!
+    raise "Такого поезда нет на станции" if @trains.include?!(@train)
     true
   end
 

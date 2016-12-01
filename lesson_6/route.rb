@@ -4,25 +4,20 @@ class Route
 
   def initialize(first, last)
     @first, @last = first, last
-    @list = [first, last]
     validate!
+    @list = [first, last]
   end
 
   def add(station)
-      station_validate!
-      if @list.include?(station)
-      puts "Такая станция уже есть в маршруте"
-    else
-      @list.insert(-2, station)
-    end
+    @a_station = station
+    add_validate!
+    @list.insert(-2, station)
   end
 
   def del(station)
-    if station == @list.first || station == @list.last
-      puts "Вы не можете удалить начальную или конечную станцию"
-    else
-      @list.delete(station)
-    end
+    @d_station = station
+    del_validate!
+    @list.delete(station)
   end
 
   def valid?
@@ -34,9 +29,20 @@ class Route
   protected
 
   def validate!
-    raise "Указанные станции не существует" if first.class != Station && last.class != Station
-    raise "Первая станция не существует" if first.class != Station
-    raise "Последняя станция не существует" if last.class != Station
+    raise "Первая станция не является объектом класса 'Station'" if first.class != Station
+    raise "Последняя станция не является объектом класса 'Station'" if last.class != Station
+    # raise "!!!-!!!" if defined?(last.class).nil? == true
+    true
+  end
+
+  def add_validate!
+    raise "Cтанция не является объектом класса 'Station'" if @a_station.class != Station
+    raise "Такая станция уже есть в маршруте" if @list.include?(@a_station)
+    true
+  end
+
+  def del_validate!
+    raise "Вы не можете удалить начальную или конечную станцию" if @d_station == @list.first || @d_station == @list.last
     true
   end
 

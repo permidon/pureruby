@@ -21,7 +21,9 @@ class Train
   end
 
   def self.find(id)
-    @@all_trains.key?(id) ? @@all_trains[id] : puts('Поезда с таким номером не найдено')
+    @id = id
+    find!
+    @@all_trains[id]
   end
 
   def speed_up(speed)
@@ -30,35 +32,21 @@ class Train
   end
 
   def stop
-    if stopped?
-      Puts "Поезд уже остановлен!"
-    else
-      @speed = 0
-    end
+    stopped?
+    @speed = 0
   end
 
   def add_car(car)
-    if stopped?
-      if self.type == car.type
-        @cars << car
-      else
-        puts "Тип вагона не совпадает с типом поезда"
-      end
-    else
-      puts "Сначала необходимо остановить поезд"
-    end
+    @car = car
+    stop!
+    type!
+    @cars << car
   end
 
   def del_car
-    if stopped?
-      if @cars.size > 0
-        @cars.pop
-      else
-        puts "Поезд не содержит вагонов"
-      end
-    else
-      puts "Сначала необходимо остановить поезд"
-    end
+    stop!
+    del!
+    @cars.pop
   end
 
   def current_station
@@ -68,20 +56,13 @@ class Train
 
   def next_station
     return unless route?
-      if @current_station_id < @route.list.size
-        @route.list[@current_station_id + 1]
-      else
-        puts "Данная станция - последняя"
-      end
+    next!
+    @route.list[@current_station_id + 1]
   end
 
   def previous_station
     return unless route?
-      if @current_station_id > 0
-        @route.list[@current_station_id - 1]
-      else
-        puts "Данная станция - первая"
-      end
+    @route.list[@current_station_id - 1]
   end
 
   def list
@@ -109,22 +90,53 @@ class Train
 protected
 
   def validate!
-    raise "Номер поезда должен содержать символы" if id == ''
+    raise "Номер поезда должен быть строкой и записан в формате 'XXX-XX'" if id.class != String || id.size == 0
     raise "Формат номера поезда указан неверно" if id !~ ID_FORMAT
     true
   end
 
   def stopped?
-    @speed == 0
+    raise "Поезд уже остановлен!" if @speed == 0
+    true
   end
 
   def route?
     if @route
       true
     else
-      puts "Поезд не имеет маршрута"
       false
     end
+  end
+
+  def stop!
+    raise "Сначала необходимо остановить поезд" if @speed != 0
+    true
+  end
+
+  def type!
+    raise "Вагон не является объектом cуперкласса 'Car'" if @car.class.superclass != Car
+    raise "Тип вагона не совпадает с типом поезда" if self.type != @car.type
+    true
+  end
+
+  def find!
+    raise "Поезда с таким номером не найдено" if @@all_trains.key?!(@id)
+    true
+  end
+
+  def del!
+    raise "Поезд не содержит вагонов" if @cars.size == 0
+    true
+  end
+
+  def next!
+    raise "Данная станция - последняя" if @current_station_id == @route.list.size
+    true
+  end
+
+  def prev!
+    raise "Данная станция - первая" if @current_station_id == 0
+    true
   end
 
 end

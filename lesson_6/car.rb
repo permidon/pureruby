@@ -20,7 +20,7 @@ class Car
   protected
 
   def validate!
-    raise "Номер вагона должен содержать символы" if id == ''
+    raise "Номер вагона должен быть строкой из 3-х символов" if id.class != String || id.size != 3
     true
   end
 

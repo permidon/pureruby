@@ -10,3 +10,11 @@ require_relative "cargo_car.rb"
 require_relative "cargo_train.rb"
 require_relative "passenger_car.rb"
 require_relative "passenger_train.rb"
+
+msk = Station.new("MSK")
+spb = Station.new("SPB")
+r1 = Route.new(msk, spb)
+t1 = PassengerTrain.new("111-11")
+t2 = PassengerTrain.new("22222")
+t3 = CargoTrain.new("AAA-AA")
+t4 = CargoTrain.new("BBBBB")
