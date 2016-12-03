@@ -247,11 +247,13 @@ class Main
       t_id = gets.chomp
       if train?(t_id)
         @trains.each do |i|
-          if i.id == t_id && i.cars.size > 0
-            i.del_car
-            puts "У поезда №#{t_id} отцеплен один вагон. Осталось #{i.cars.size} вагонов"
-          else
-            puts "У поезда №#{t_id} нет вагонов."
+          if i.id == t_id
+            if i.cars.size > 0
+              i.del_car
+              puts "У поезда №#{t_id} отцеплен один вагон. Осталось #{i.cars.size} вагонов"
+            else
+              puts "У поезда №#{t_id} нет вагонов."
+            end
           end
         end
       else

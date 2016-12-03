@@ -128,7 +128,7 @@ protected
   end
 
   def car_validate!
-    raise "Такой вагон уже есть этого поезда" if @cars.include?(@car)
+    raise "Такой вагон уже есть у этого поезда" if @cars.include?(@car)
     raise "Такой вагон уже есть у какого-то поезда" if @car.bound == 1
     true
   end

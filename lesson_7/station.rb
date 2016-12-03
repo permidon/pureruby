@@ -58,8 +58,8 @@ class Station
   end
 
   def arr_validate!
-    raise "Такой поезд уже есть этой станции" if @trains.include?(@train)
-    raise "Такой поезд уже есть какой-то станции" if @train.bound == 1
+    raise "Такой поезд уже есть у этой станции" if @trains.include?(@train)
+    raise "Такой поезд уже есть у какой-то станции" if @train.bound == 1
     true
   end
 
