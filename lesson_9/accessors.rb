@@ -1,14 +1,15 @@
 module Accessors
   def attr_accessor_with_history(*names)
     names.each do |name|
-      hist = []
       var_name = "@#{name}".to_sym
+      hist = "@#{name}_hist".to_sym
       define_method(name) { instance_variable_get(var_name) }
       define_method("#{name}=".to_sym) do |value|
+        instance_variable_set(hist, []) unless instance_variable_get(hist)
         instance_variable_set(var_name, value)
-        hist << value
+        instance_variable_get(hist) << instance_variable_get(var_name)
       end
-      define_method("#{name}_history".to_sym) { hist }
+      define_method("#{name}_history".to_sym) { instance_variable_get(hist) }
     end
   end
 
@@ -16,14 +17,14 @@ module Accessors
     var_name = "@#{name}".to_sym
       define_method(name) { instance_variable_get(var_name) }
       define_method("#{name}=".to_sym) do |value|
-        raise "Var does not match the specified class" if value.class != cls
+        raise "Var does not match the specified class" if !value.is_a?(cls)
         instance_variable_set(var_name, value)
       end
   end
 end
 
 #EXAMPLE
-#
+# #
 # class Test
 #   extend Accessors
 
@@ -31,7 +32,7 @@ end
 #   strong_attr_acessor :str, String
 # end
 
-# obj = Test.new
+# # obj = Test.new
 # => #<Test:0x007fa05a8959c0>
 # obj.a = 3
 # => 3

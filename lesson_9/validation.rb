@@ -7,9 +7,9 @@ module Validation
   module ClassMethods
     attr_accessor :checks
 
-    def validate(name, type, *param)
+    def validate(name, type, *params)
       @checks ||= []
-      @checks << { type: type, name: name, param: param }
+      @checks << { type: type, name: name, params: params }
     end
   end
 
@@ -24,21 +24,22 @@ module Validation
 
     def validate!
       self.class.checks.each do |check|
-        send check[:type], check[:name], check[:param]
+        @ins = instance_variable_get("@#{check[:name]}")
+        send check[:type], check[:name], check[:params]
       end
       true
     end
 
     def presence(name, _arg)
-      raise "Value must be a non-empty string" if instance_variable_get("@#{name}").class != String || instance_variable_get("@#{name}").empty?
+      raise "Value must not be nil or empty" if @ins.nil? || @ins.to_s.empty?
     end
 
     def format(name, reg)
-      raise "Value must be in #{reg[0]} format" if instance_variable_get("@#{name}") !~ reg[0]
+      raise "Value must be in #{reg[0]} format" if @ins !~ reg[0]
     end
 
     def type(name, type)
-      raise "Value does not match to a given class" if instance_variable_get("@#{name}").class != type[0]
+      raise "Value does not match to a given class" if @ins.class != type[0]
     end
   end
 end
