@@ -24,22 +24,22 @@ module Validation
 
     def validate!
       self.class.checks.each do |check|
-        @ins = instance_variable_get("@#{check[:name]}")
-        send check[:type], check[:name], check[:params]
+        ins = instance_variable_get("@#{check[:name]}")
+        send check[:type], check[:name], check[:params], ins
       end
       true
     end
 
-    def presence(name, _arg)
-      raise "Value must not be nil or empty" if @ins.nil? || @ins.to_s.empty?
+    def presence(name, _arg, ins)
+      raise "Value must not be nil or empty" if ins.nil? || ins.to_s.empty?
     end
 
-    def format(name, reg)
-      raise "Value must be in #{reg[0]} format" if @ins !~ reg[0]
+    def format(name, reg, ins)
+      raise "Value must be in #{reg[0]} format" if ins !~ reg[0]
     end
 
-    def type(name, type)
-      raise "Value does not match to a given class" if @ins.class != type[0]
+    def type(name, type, ins)
+      raise "Value does not match to a given class" if ins.class != type[0]
     end
   end
 end
